@@ -2,12 +2,12 @@ import turtle
 import warnings
 warnings.filterwarnings("ignore", "\nPyarrow", DeprecationWarning)
 import pandas as pd
-import csv
+
 
 data = pd.read_csv('50_states.csv')
 
 states = data['state']
-l_states = states.to_list()
+l_states = states.to_list() # l_states = data.state.to_list()
 
 print(l_states)
 screen = turtle.Screen()
@@ -34,25 +34,23 @@ while game_is_on:
         answer_state = ''
         while answer_state.title() not in l_states:
             answer_state = screen.textinput(title='Guess the State', prompt="What's another state")
-            if answer_state == None:
+            if answer_state is None:
                 break
     else:
         answer_state = ''
         while answer_state.title() not in l_states:
             answer_state = screen.textinput(title=f'{n}/{len(data)} States', prompt="What's another state")
-            if answer_state == None:
+            if answer_state is None:
                 break
-    if answer_state == None:
+    if answer_state is None:
         break
     state = data[data['state'] == answer_state.title()]
-    state_x = state['x']
-
 
     writer.goto(int(state['x'].iloc[0]), int(state['y'].iloc[0]))
     writer.write(answer_state.title())
 
     n += 1
-    if n == 50:
+    if n < 50:
         game_is_on = False
 
 screen.exitonclick()
